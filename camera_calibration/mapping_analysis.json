@@ -1,0 +1,26 @@
+{
+  "total_control_points": 320,
+  "distorted_range": {
+    "x_min": 79.0,
+    "x_max": 597.0,
+    "y_min": 24.0,
+    "y_max": 461.0
+  },
+  "ideal_range": {
+    "x_min": 100.0,
+    "x_max": 1050.0,
+    "y_min": 100.0,
+    "y_max": 850.0
+  },
+  "displacement_stats": {
+    "mean_displacement": 352.50037746999124,
+    "max_displacement": 633.0157975911818,
+    "min_displacement": 58.69412236331676,
+    "std_displacement": 112.61406498974152
+  },
+  "grid_info": {
+    "rows": 16,
+    "cols": 20,
+    "total_grid_points": 320
+  }
+}

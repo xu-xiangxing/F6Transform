@@ -1,0 +1,38 @@
+{
+  "system_info": {
+    "description": "相机畸变校正系统参数",
+    "algorithm": "假畸变校正 + 射线重定向",
+    "grid_structure": "16x20节点, 15x19四边形",
+    "total_nodes": 320,
+    "total_grids": 285
+  },
+  "image_info": {
+    "source_image": "dstrt.jpg",
+    "binary_image": "ideal_binary.jpg",
+    "image_size": [
+      640,
+      480
+    ]
+  },
+  "grid_parameters": {
+    "node_rows": 16,
+    "node_cols": 20,
+    "grid_rows": 15,
+    "grid_cols": 19,
+    "ideal_spacing_x": 30.0,
+    "ideal_spacing_y": 25.0,
+    "ideal_start_x": 50.0,
+    "ideal_start_y": 50.0
+  },
+  "algorithm_parameters": {
+    "fake_correction_center": [
+      338.0,
+      241.9
+    ],
+    "compensation_factor": 0.001,
+    "area_filter_range": [
+      50,
+      250
+    ]
+  }
+}
