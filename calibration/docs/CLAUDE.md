@@ -88,19 +88,36 @@
 ## 当前状态
 - ✅ 反投影算法验证成功
 - ✅ 自标定算法验证成功（包含纵深测试）
-- ✅ 项目结构清晰：2个主程序+2个测试+文档
+- ✅ 项目结构重构完成：按功能分类到子目录
+- ✅ 目录整理完成：src/, tests/, tools/, data/, images/, docs/
+- ✅ 导入路径修正：所有模块正常工作
+- ✅ 工具链完善：数据生成、映射表、验证工具全部可用
 - 📋 下一步：实际广角相机测试
 - 📋 待验证：边缘区域畸变对算法的影响
 
 ## 文件结构
 ```
 calibration/
-├── backPrjct.py        # 反投影算法
-├── backPrjctTest.py    # 反投影测试
-├── selfClbr.py         # 自标定算法（含像深计算函数）
-├── selfClbrTest.py     # 自标定测试
-├── README.md           # 项目说明
-└── CLAUDE.md          # 上下文文档（本文件）
+├── src/                # 核心算法源码
+│   ├── backPrjct.py        # 反投影算法
+│   ├── selfClbr.py         # 自标定算法
+│   ├── dstrtCrrct.py       # 畸变校正算法
+│   └── utils.py            # 工具函数库
+├── tests/              # 测试文件
+│   ├── backPrjctTest.py    # 反投影测试
+│   └── selfClbrTest.py     # 自标定测试
+├── tools/              # 工具脚本
+│   ├── saveParam.py        # 参数保存工具
+│   ├── save_mapping_table.py # 映射表生成工具
+│   ├── verify_points.py    # 点验证工具
+│   └── draw_ideal_grid.py  # 网格绘制工具
+├── data/               # 生成的标定数据
+├── images/             # 图像文件
+└── docs/               # 项目文档
+    ├── CLAUDE.md           # 上下文文档（本文件）
+    ├── README.md           # 项目说明
+    ├── INTRODUCTION.md     # 项目介绍
+    └── F6 Transform.md     # F6变换理论
 ```
 
 ## 关键术语解释
