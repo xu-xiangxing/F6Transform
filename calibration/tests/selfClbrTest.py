@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from backPrjct import CX, CY, EDGE_MM, MAX_ITER
 from utils import calc_image_depth, backproject
 from selfClbr import SelfCalibration

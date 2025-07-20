@@ -3,6 +3,9 @@
 
 import json
 import numpy as np
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from dstrtCrrct import DistortionCorrection
 
 def save_mapping_table_to_file():
@@ -11,7 +14,7 @@ def save_mapping_table_to_file():
     print("=== 生成xy2uv变换表 ===")
     
     # 创建畸变校正器
-    corrector = DistortionCorrection("dstrt.jpg")
+    corrector = DistortionCorrection("../images/dstrt.jpg")
     
     # 运行到生成映照表的步骤
     try:
@@ -27,10 +30,10 @@ def save_mapping_table_to_file():
         print(f"成功生成映照表，包含 {len(mapping_table)} 个控制点")
         
         # 保存为JSON格式
-        save_mapping_as_json(mapping_table, "xy2uv_mapping.json")
+        save_mapping_as_json(mapping_table, "../data/xy2uv_mapping.json")
         
         # 保存为numpy格式（更高效）
-        save_mapping_as_numpy(mapping_table, "xy2uv_mapping.npz")
+        save_mapping_as_numpy(mapping_table, "../data/xy2uv_mapping.npz")
         
         # 分析并保存统计信息
         analyze_mapping_table(mapping_table, corrector)
@@ -132,7 +135,7 @@ def analyze_mapping_table(mapping_table, corrector):
         }
     
     # 保存统计信息
-    with open("mapping_analysis.json", 'w', encoding='utf-8') as f:
+    with open("../data/mapping_analysis.json", 'w', encoding='utf-8') as f:
         json.dump(stats, f, indent=2, ensure_ascii=False)
     
     print(f"✓ 映照表分析已保存: mapping_analysis.json")
@@ -142,7 +145,7 @@ def analyze_mapping_table(mapping_table, corrector):
     print(f"平均位移: {stats['displacement_stats']['mean_displacement']:.2f} 像素")
     print(f"最大位移: {stats['displacement_stats']['max_displacement']:.2f} 像素")
 
-def load_and_test_mapping(filename="xy2uv_mapping.npz"):
+def load_and_test_mapping(filename="../data/xy2uv_mapping.npz"):
     """加载并测试映照表"""
     
     print(f"\n=== 测试加载映照表: {filename} ===")

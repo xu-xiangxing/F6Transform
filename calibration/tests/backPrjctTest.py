@@ -2,7 +2,8 @@
 
 import numpy as np
 import sys
-sys.path.append('.')
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from backPrjct import backproject_to_F6, CX, CY, EDGE_MM
 from utils import calc_image_depth, backproject
 

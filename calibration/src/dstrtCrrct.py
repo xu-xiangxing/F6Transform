@@ -12,7 +12,7 @@ class DistortionCorrection:
     
     def __init__(self, image_path, binary_path=None):
         self.image_path = image_path
-        self.binary_path = binary_path or "ideal_binary.jpg"
+        self.binary_path = binary_path or "../images/ideal_binary.jpg"
         self.original_image = None
         self.binary_image = None
         self.grid_points = []
@@ -740,12 +740,12 @@ class DistortionCorrection:
             
             # 保存结果
             if corrected_image is not None:
-                Image.fromarray(corrected_image).save('corrected_image.jpg')
+                Image.fromarray(corrected_image).save('../images/corrected_image.jpg')
                 print("校正后图像已保存为: corrected_image.jpg")
             
             # 保存中间结果
             if self.binary_image is not None:
-                Image.fromarray(self.binary_image).save('binary_image.jpg')
+                Image.fromarray(self.binary_image).save('../images/binary_image.jpg')
                 print("二值化图像已保存为: binary_image.jpg")
             
             print("\n=== 射线重定向校正完成 ===")
@@ -759,7 +759,7 @@ def test_real_distortion_correction():
     """测试真实畸变校正"""
     
     # 创建校正器
-    corrector = DistortionCorrection("dstrt.jpg")
+    corrector = DistortionCorrection("../images/dstrt.jpg")
     
     # 运行完整流程
     success = corrector.run_complete_correction()

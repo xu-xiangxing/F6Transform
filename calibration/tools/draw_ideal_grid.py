@@ -44,7 +44,7 @@ def draw_ideal_grid(rows=16, cols=20, cell_size=50, margin=100, image_size=(1280
             draw.line([(x, y1), (x, y2)], fill='gray', width=1)
     
     # 保存图像
-    image.save('ideal_grid.jpg')
+    image.save('../images/ideal_grid.jpg')
     print(f"理想网格图已保存: ideal_grid.jpg")
     print(f"网格规模: {rows}x{cols}")
     print(f"单元格大小: {cell_size}像素")
@@ -75,7 +75,7 @@ def draw_ideal_grid_binary(rows=16, cols=20, cell_size=50, margin=100, image_siz
                         fill=0)  # 0 = 黑色
     
     # 保存图像
-    image.save('ideal_binary_grid.jpg')
+    image.save('../images/ideal_binary_grid.jpg')
     print(f"理想二值网格图已保存: ideal_binary_grid.jpg")
     
     return image

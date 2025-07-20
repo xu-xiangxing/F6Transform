@@ -7,8 +7,8 @@
     "total_grids": 285
   },
   "image_info": {
-    "source_image": "dstrt.jpg",
-    "binary_image": "ideal_binary.jpg",
+    "source_image": "../images/dstrt.jpg",
+    "binary_image": "../images/ideal_binary.jpg",
     "image_size": [
       640,
       480

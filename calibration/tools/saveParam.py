@@ -3,6 +3,9 @@
 
 import numpy as np
 import json
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from dstrtCrrct import DistortionCorrection
 
 def save_system_parameters():
@@ -10,7 +13,7 @@ def save_system_parameters():
     print("=== 保存系统参数 ===")
     
     # 创建校正器并运行完整流程
-    corrector = DistortionCorrection("dstrt.jpg")
+    corrector = DistortionCorrection("../images/dstrt.jpg")
     
     # 运行完整处理流程
     enhanced = corrector.load_and_preprocess()
@@ -61,7 +64,7 @@ def save_node_data(corrector):
             node_id += 1
     
     # 保存为JSON格式
-    with open('nodes_320.json', 'w', encoding='utf-8') as f:
+    with open('../data/nodes_320.json', 'w', encoding='utf-8') as f:
         json.dump({
             'description': '320个网格节点数据 (16行x20列)',
             'total_nodes': len(nodes_data),
@@ -75,7 +78,7 @@ def save_node_data(corrector):
     x_ideal = [node['x_ideal'] for node in nodes_data]
     y_ideal = [node['y_ideal'] for node in nodes_data]
     
-    np.savez('nodes_320.npz',
+    np.savez('../data/nodes_320.npz',
              x_distorted=np.array(x_distorted),
              y_distorted=np.array(y_distorted),
              x_ideal=np.array(x_ideal),
@@ -135,7 +138,7 @@ def save_grid_data(corrector):
             grid_id += 1
     
     # 保存为JSON格式
-    with open('grids_285.json', 'w', encoding='utf-8') as f:
+    with open('../data/grids_285.json', 'w', encoding='utf-8') as f:
         json.dump({
             'description': '285个grid数据：xy畸变四边形 + uv理想正方形 (15行x19列)',
             'total_grids': len(grids_data),
@@ -163,7 +166,7 @@ def save_grid_data(corrector):
         u_coords.extend([uv['u1'], uv['u2'], uv['u3'], uv['u4']])
         v_coords.extend([uv['v1'], uv['v2'], uv['v3'], uv['v4']])
     
-    np.savez('grids_285.npz',
+    np.savez('../data/grids_285.npz',
              x_distorted=np.array(x_coords),
              y_distorted=np.array(y_coords),
              u_ideal=np.array(u_coords),
@@ -187,8 +190,8 @@ def save_system_config(corrector):
             'total_grids': 285
         },
         'image_info': {
-            'source_image': 'dstrt.jpg',
-            'binary_image': 'ideal_binary.jpg',
+            'source_image': '../images/dstrt.jpg',
+            'binary_image': '../images/ideal_binary.jpg',
             'image_size': [640, 480]
         },
         'grid_parameters': {
@@ -208,7 +211,7 @@ def save_system_config(corrector):
         }
     }
     
-    with open('system_config.json', 'w', encoding='utf-8') as f:
+    with open('../data/system_config.json', 'w', encoding='utf-8') as f:
         json.dump(config, f, indent=2, ensure_ascii=False)
     
     print(f"✅ 系统配置已保存:")

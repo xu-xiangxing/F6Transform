@@ -3,14 +3,17 @@
 
 import numpy as np
 from PIL import Image, ImageDraw
-from dstrtCorrection import DistortionCorrection
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
+from dstrtCrrct import DistortionCorrection
 
 def verify_320_points():
     """验证320个点的提取和排序"""
     print("=== 验证320个质心点 ===")
     
     # 创建校正器并提取点
-    corrector = DistortionCorrection("dstrt.jpg")
+    corrector = DistortionCorrection("../images/dstrt.jpg")
     
     # 加载原图和二值化图像
     enhanced = corrector.load_and_preprocess()
@@ -26,7 +29,7 @@ def verify_320_points():
     print(f"✅ 成功提取320个点")
     
     # 加载原图
-    original_pil = Image.open("dstrt.jpg").convert('RGB')
+    original_pil = Image.open("../images/dstrt.jpg").convert('RGB')
     draw = ImageDraw.Draw(original_pil)
     
     # 在原图上标记320个点
@@ -42,7 +45,7 @@ def verify_320_points():
                         fill='yellow', outline='yellow')
     
     # 保存标记后的图像
-    original_pil.save('points_marked.jpg')
+    original_pil.save('../images/points_marked.jpg')
     print("✅ 320个点已标记到原图，保存为 points_marked.jpg")
     
     # 建立x,y,u,v数组
@@ -94,7 +97,7 @@ def create_mapping_arrays(corrector):
     print(f"   v范围: {v_array.min():.1f} - {v_array.max():.1f}")
     
     # 保存映照数组
-    np.savez('mapping_arrays.npz', 
+    np.savez('../data/mapping_arrays.npz', 
              x=x_array, y=y_array, u=u_array, v=v_array)
     print("✅ 映照数组已保存为 mapping_arrays.npz")
     
@@ -121,7 +124,7 @@ def visualize_ideal_grid(u_array, v_array):
                     fill='blue', outline='blue')
     
     # 保存理想网格图像
-    ideal_image.save('ideal_grid.jpg')
+    ideal_image.save('../images/ideal_grid.jpg')
     print("✅ 理想网格已保存为 ideal_grid.jpg")
 
 if __name__ == "__main__":
