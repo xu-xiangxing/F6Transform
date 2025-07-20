@@ -94,7 +94,7 @@
 
 ## 文件结构
 ```
-camera_calibration/
+calibration/
 ├── backPrjct.py        # 反投影算法
 ├── backPrjctTest.py    # 反投影测试
 ├── selfClbr.py         # 自标定算法（含像深计算函数）
