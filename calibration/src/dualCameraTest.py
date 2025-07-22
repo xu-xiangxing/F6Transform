@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
-from utils import calc_image_depth, backproject, compute_relative_F6
+from utils import calc_image_depth, backproject, compute_relative_F6, apply_F6_transform, combine_F6
 from backPrjct import backproject_to_F6
 
 def test_step1_basic_setup():
@@ -90,7 +90,7 @@ def test_step1_basic_setup():
     f6_AB = compute_relative_F6(f6_A, f6_B)
     print(f"F6_AB: [{f6_AB[0]:.3f}, {f6_AB[1]:.3f}, {f6_AB[2]:.3f}, {f6_AB[3]:.3f}, {f6_AB[4]:.3f}, {f6_AB[5]:.3f}]")
     print("(这表示从相机A坐标系到相机B坐标系的变换)")
-    print("\n解释：同一个靶标被两个相机观察，F6_AB使得'B看到的就是A看到的'")
+    print("解释：同一个靶标被两个相机观察，F6_AB使得'B看到的就是A看到的'")
     
     # 总结F6三者关系
     print("\n=== F6三者关系总结 ===")
@@ -98,7 +98,37 @@ def test_step1_basic_setup():
     print("1. F6_AB = F6_A ⊕ !F6_B  (已知F6_A和F6_B，求F6_AB)")
     print("2. F6_B = !F6_AB ⊕ F6_A  (已知F6_A和F6_AB，求F6_B)")
     print("3. F6_A = F6_AB ⊕ F6_B   (已知F6_B和F6_AB，求F6_A)")
-    print("\n这就是双相机标定的核心原理！")
+    print("这就是双相机标定的核心原理！")
+    
+    # 测试质点变换：验证B看到的变成A看到的
+    print("\n=== 质点变换测试 ===")
+    print("验证：通过F6_AB变换，B看到的质点变成A看到的")
+    
+    # 在B相机坐标系中定义一个测试点
+    test_point_B = np.array([10.0, 20.0, 100.0])  # B相机坐标系中的点
+    print(f"测试点在B相机坐标系中: [{test_point_B[0]:.1f}, {test_point_B[1]:.1f}, {test_point_B[2]:.1f}] mm")
+    
+    # 方法1：直接使用apply_F6_transform
+    print("\n方法1：使用apply_F6_transform（内部将质点转换为F6）")
+    test_point_A_method1 = apply_F6_transform(test_point_B, f6_AB)
+    print(f"变换后在A相机坐标系中: [{test_point_A_method1[0]:.1f}, {test_point_A_method1[1]:.1f}, {test_point_A_method1[2]:.1f}] mm")
+    
+    # 方法2：显式将质点转换为F6，然后用F6群运算
+    print("\n方法2：显式质点→F6，然后F6群运算")
+    f6_point_B = np.concatenate([test_point_B, np.array([0.0, 0.0, 0.0])])  # 质点作为F6
+    print(f"质点的F6表示: [{f6_point_B[0]:.1f}, {f6_point_B[1]:.1f}, {f6_point_B[2]:.1f}, {f6_point_B[3]:.1f}, {f6_point_B[4]:.1f}, {f6_point_B[5]:.1f}]")
+    
+    # F6群运算：F6_AB ⊕ F6_point_B
+    f6_point_A = combine_F6(f6_AB, f6_point_B)
+    test_point_A_method2 = f6_point_A[:3]  # 提取位置分量
+    print(f"F6运算结果: [{f6_point_A[0]:.1f}, {f6_point_A[1]:.1f}, {f6_point_A[2]:.1f}, {f6_point_A[3]:.1f}, {f6_point_A[4]:.1f}, {f6_point_A[5]:.1f}]")
+    print(f"提取位置分量: [{test_point_A_method2[0]:.1f}, {test_point_A_method2[1]:.1f}, {test_point_A_method2[2]:.1f}] mm")
+    
+    # 验证两种方法结果一致
+    diff = np.linalg.norm(test_point_A_method1 - test_point_A_method2)
+    print(f"\n两种方法的差异: {diff:.6f} mm")
+    if diff < 1e-6:
+        print("✓ 两种方法结果一致，验证了质点变换的F6群内运算本质！")
     
     return {
         'id_A': id_A,
@@ -118,5 +148,5 @@ if __name__ == "__main__":
     
     result = test_step1_basic_setup()
     
-    print("\n=" * 50)
+    print("\n" + "=" * 50)
     print("第一步完成！数据已准备好供下一步使用。")
