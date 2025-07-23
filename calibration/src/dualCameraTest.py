@@ -80,13 +80,23 @@ def test_step1_basic_setup():
     print(f"B点3D坐标: [{world_B_B[0]:.3f}, {world_B_B[1]:.3f}, {world_B_B[2]:.3f}] mm") 
     print(f"C点3D坐标: [{world_C_B[0]:.3f}, {world_C_B[1]:.3f}, {world_C_B[2]:.3f}] mm")
     
+    # 验证B相机反投影的三角形几何特性
+    print("\n8. 验证B相机反投影的三角形几何特性:")
+    edge_AB_B = np.linalg.norm(world_A_B - world_B_B)
+    edge_BC_B = np.linalg.norm(world_B_B - world_C_B)
+    edge_CA_B = np.linalg.norm(world_C_B - world_A_B)
+    
+    print(f"边长AB: {edge_AB_B:.3f} mm")
+    print(f"边长BC: {edge_BC_B:.3f} mm")
+    print(f"边长CA: {edge_CA_B:.3f} mm")
+    
     # 计算B相机的F6参数
-    print("\n8. 从B相机图像坐标反投影计算F6_B:")
+    print("\n9. 从B相机图像坐标反投影计算F6_B:")
     f6_B = backproject_to_F6(A_img_B, B_img_B, C_img_B, id_B)
     print(f"F6_B: [{f6_B[0]:.3f}, {f6_B[1]:.3f}, {f6_B[2]:.3f}, {f6_B[3]:.3f}, {f6_B[4]:.3f}, {f6_B[5]:.3f}]")
     
     # 计算相对变换 F6_AB = F6_A ⊕ !F6_B
-    print("\n9. 计算相对变换 F6_AB = F6_A ⊕ !F6_B:")
+    print("\n10. 计算相对变换 F6_AB = F6_A ⊕ !F6_B:")
     f6_AB = compute_relative_F6(f6_A, f6_B)
     print(f"F6_AB: [{f6_AB[0]:.3f}, {f6_AB[1]:.3f}, {f6_AB[2]:.3f}, {f6_AB[3]:.3f}, {f6_AB[4]:.3f}, {f6_AB[5]:.3f}]")
     print("(这表示从相机A坐标系到相机B坐标系的变换)")
